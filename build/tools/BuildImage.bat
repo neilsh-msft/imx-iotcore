@@ -121,6 +121,11 @@ REM
 echo building image
 echo imggen.cmd "%FFU_FILE_NAME%" "%BOARD_BUILD_PATH%\%INPUT_FILE_NAME%" "%KITSROOT%MSPackages" %PLATFORM%
 call imggen.cmd "%FFU_FILE_NAME%" "%BOARD_BUILD_PATH%\%INPUT_FILE_NAME%" "%KITSROOT%MSPackages" %PLATFORM%
+
+echo ---imagegen output ---
+echo %REPO_BUILD_ROOT%\solution\iMXPlatform\Build\FFU\%BOARD_NAME%\%INPUT_FILE_NAME%.%Configuration%.ImageApp.cbs.log
+type %REPO_BUILD_ROOT%\solution\iMXPlatform\Build\FFU\%BOARD_NAME%\%INPUT_FILE_NAME%.%Configuration%.ImageApp.cbs.log
+echo ---imagegen output ---
 goto :EXIT
 
 :USAGE
