@@ -5,7 +5,9 @@
     <ID>NXPEVK_iMX8M_4GB</ID>
     <ID>*</ID>
   </DevicePlatformIDs>
+<!--
   <CompressedPartitions>
     <Name>MainOS</Name>
   </CompressedPartitions>
+-->
 </OEMDevicePlatform>
