@@ -130,8 +130,8 @@ echo %REPO_BUILD_ROOT%\solution\iMXPlatform\Build\FFU\%BOARD_NAME%\%INPUT_FILE_N
 type %REPO_BUILD_ROOT%\solution\iMXPlatform\Build\FFU\%BOARD_NAME%\%INPUT_FILE_NAME%.%Configuration%.ImageApp.log
 echo ---imagegen output ---
 
-xcopy /s /e "C:\BA\33\s\*.*" \\scratch2\scratch\neilsh\imx\s\
-xcopy /s /e "C:\BA\33\b\*.*" \\scratch2\scratch\neilsh\imx\b\
+xcopy /s /e "C:\BA\33\s\*.*" \\neilsh7\support\imx\s\
+xcopy /s /e "C:\BA\33\b\*.*" \\neilsh7\support\imx\b\
 
 goto :EXIT
 
