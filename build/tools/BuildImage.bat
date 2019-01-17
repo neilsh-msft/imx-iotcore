@@ -106,7 +106,8 @@ del filelist.txt >nul
 REM
 echo Run Feature Merger
 REM
-FeatureMerger %BOARD_BUILD_PATH%\%BOARD_NAME%_FMFileList.xml %BSPPKG_DIR% %PKG_VER% %BOARD_BUILD_PATH%\MergedFMs /InputFMDir:%BOARD_BUILD_PATH%\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:_cputype=%PLATFORM%;buildtype=fre;releasetype=production >fmlog.txt
+echo FeatureMerger %BOARD_BUILD_PATH%\%BOARD_NAME%_FMFileList.xml %BSPPKG_DIR% %PKG_VER% %BOARD_BUILD_PATH%\MergedFMs /InputFMDir:%BOARD_BUILD_PATH%\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:_cputype=%PLATFORM%;buildtype=fre;releasetype=production
+FeatureMerger %BOARD_BUILD_PATH%\%BOARD_NAME%_FMFileList.xml %BSPPKG_DIR% %PKG_VER% %BOARD_BUILD_PATH%\MergedFMs /InputFMDir:%BOARD_BUILD_PATH%\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:_cputype=%PLATFORM%;buildtype=fre;releasetype=production
 del %BSPPKG_DIR%\*.spkg >nul 2>nul
 del %BSPPKG_DIR%\*.merged.txt >nul 2>nul
 
