@@ -52,7 +52,7 @@ HRESULT CDecodeTask::Create(
 }
 
 HRESULT CDecodeTask::Begin(
-    IMYMFT* pMYMFT)
+    IVpuMft* pMYMFT)
 {
     HRESULT             hr              = S_OK;
     IMFAsyncCallback*   pDecodeTask     = NULL;
@@ -118,7 +118,7 @@ HRESULT CDecodeTask::Invoke(
 {
     HRESULT     hr          = S_OK;
     IUnknown*   pStateUnk   = NULL;
-    IMYMFT*     pMYMFT      = NULL;
+    IVpuMft*     pMYMFT      = NULL;
 
     do
     {

@@ -2,7 +2,7 @@
 
 #include <Mfidl.h>
 
-class IMYMFT;   // Defined in IMYMFT.h, included in the cpp for this class
+class IVpuMft;   // Defined in IVpuMft.h, included in the cpp for this class
 
 class CDecodeTask: 
     public IMFAsyncCallback
@@ -15,7 +15,7 @@ public:
                                 IMFAsyncCallback**  ppTask
                                 );
             HRESULT     Begin(
-                                IMYMFT* pMYMFT
+                                IVpuMft* pMYMFT
                                 );
             HRESULT     End(void);
 

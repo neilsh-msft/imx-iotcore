@@ -3,21 +3,6 @@
 #include "vpumft.h"
 #include "vpumft_DebugLogger.h"
 
-// Helper Macros
-#define SAFERELEASE(x) \
-    if((x) != NULL) \
-    { \
-        (x)->Release(); \
-        (x) = NULL; \
-    } \
-
-#define SAFEDELETE(x) \
-    if((x) != NULL) \
-    { \
-        delete (x); \
-        (x) = NULL; \
-    } \
-
 class CSampleQueue::CNode
 {
 public:

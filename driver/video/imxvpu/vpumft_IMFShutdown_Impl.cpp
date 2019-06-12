@@ -3,7 +3,7 @@
 #include <mferror.h>
 #include <mfapi.h>
 
-HRESULT CHWMFT::GetShutdownStatus(
+HRESULT CVpuMft::GetShutdownStatus(
     MFSHUTDOWN_STATUS*  pStatus)
 {
     HRESULT hr = S_OK;
@@ -32,7 +32,7 @@ HRESULT CHWMFT::GetShutdownStatus(
     return hr;
 }
 
-HRESULT CHWMFT::Shutdown(void)
+HRESULT CVpuMft::Shutdown(void)
 {
     HRESULT hr = S_OK;
 

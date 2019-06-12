@@ -11,6 +11,21 @@
 #define MFT_FRAMERATE_DENOMINATOR   1
 #define MFT_DEFAULT_SAMPLE_DURATION 300000 // 1/30th of a second in hundred nanoseconds
 
+// Helper Macros
+#define SAFERELEASE(x) \
+    if((x) != NULL) \
+    { \
+        (x)->Release(); \
+        (x) = NULL; \
+    } \
+
+#define SAFEDELETE(x) \
+    if((x) != NULL) \
+    { \
+        delete (x); \
+        (x) = NULL; \
+    } \
+
 enum eMFTStatus
 {
     MYMFT_STATUS_INPUT_ACCEPT_DATA      = 0x00000001,   /* The MFT can accept input data */
@@ -29,12 +44,12 @@ extern  const   GUID*   g_ppguidOutputTypes[];
 extern  const   DWORD   g_dwNumOutputTypes;
 extern  const   GUID    MYMFT_MFSampleExtension_Marker;
 
-class CHWMFT: 
+class CVpuMft: 
     public IMFTransform,
     public IMFShutdown,
     public IMFMediaEventGenerator,
     public IMFAsyncCallback,
-    public IMYMFT
+    public IVpuMft
     /*****************************
     ** Todo: if you add interfaces
     ** ensure that you add them 
@@ -202,14 +217,14 @@ public:
                                 );
 #pragma endregion IMFAsyncCallback
 
-    // IMYMFT Implementations
+    // IVpuMft Implementations
     HRESULT __stdcall   DecodeInputFrame(
                                 IMFSample*  pInputSample
                                 );
 
 protected:
-                        CHWMFT(void);
-                        ~CHWMFT(void);
+                        CVpuMft(void);
+                        ~CVpuMft(void);
 
     HRESULT             InitializeTransform(void);
     HRESULT             CheckInputType(

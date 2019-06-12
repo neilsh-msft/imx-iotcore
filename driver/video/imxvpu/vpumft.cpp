@@ -10,14 +10,6 @@
 DEFINE_GUID(MYMFT_MFSampleExtension_Marker, 
 0x1f620607, 0xa7ff, 0x4b94, 0x82, 0xf4, 0x99, 0x3f, 0x2e, 0x17, 0xb4, 0x97);
 
-// Helper Macros
-#define SAFERELEASE(x) \
-    if((x) != NULL) \
-    { \
-        (x)->Release(); \
-        (x) = NULL; \
-    } \
-
 #define MFT_NUM_DEFAULT_ATTRIBUTES  4
 #define MFT_HW_URL                  L"MSFT Win8 SDK HW MFT Sample"
 
@@ -38,10 +30,10 @@ const GUID*     g_ppguidOutputTypes[] =
 const DWORD     g_dwNumOutputTypes   = sizeof(g_ppguidOutputTypes) / sizeof(g_ppguidOutputTypes[0]);
 
 // Initializer
-HRESULT CHWMFT::CreateInstance(IMFTransform** ppHWMFT)
+HRESULT CVpuMft::CreateInstance(IMFTransform** ppHWMFT)
 {
     HRESULT hr          = S_OK;
-    CHWMFT* pMyHWMFT    = NULL;
+    CVpuMft* pMyHWMFT    = NULL;
 
     do
     {
@@ -51,7 +43,7 @@ HRESULT CHWMFT::CreateInstance(IMFTransform** ppHWMFT)
             break;
         }
 
-        pMyHWMFT = new CHWMFT();
+        pMyHWMFT = new CVpuMft();
         if(FAILED(hr))
         {
             break;
@@ -79,7 +71,7 @@ HRESULT CHWMFT::CreateInstance(IMFTransform** ppHWMFT)
 ********** ***********
 ****************************/
 
-CHWMFT::CHWMFT(void)
+CVpuMft::CVpuMft(void)
 {
     /****************************************************
     ** Todo: Initialize All Member variables used by your
@@ -118,7 +110,7 @@ CHWMFT::CHWMFT(void)
     TraceString(CHMFTTracing::TRACE_INFORMATION, L"%S(): Exit", __FUNCTION__);
 }
 
-CHWMFT::~CHWMFT(void)
+CVpuMft::~CVpuMft(void)
 {
     /****************************************************
     ** Todo: Release All Member variables used by your
@@ -151,7 +143,7 @@ CHWMFT::~CHWMFT(void)
     // Do no insert anything after this call, this is the DLLs object count
 }
 
-HRESULT CHWMFT::InitializeTransform(void)
+HRESULT CVpuMft::InitializeTransform(void)
 {
     /*************************************
     ** Todo: Use this function to setup
@@ -247,7 +239,7 @@ HRESULT CHWMFT::InitializeTransform(void)
     return hr;
 }
 
-HRESULT CHWMFT::CheckInputType(
+HRESULT CVpuMft::CheckInputType(
     IMFMediaType*   pMT)
 {
     /*************************************
@@ -310,7 +302,7 @@ HRESULT CHWMFT::CheckInputType(
     return hr;
 }
 
-HRESULT CHWMFT::CheckOutputType(
+HRESULT CVpuMft::CheckOutputType(
     IMFMediaType*   pMT)
 {
     /*************************************
@@ -399,7 +391,7 @@ HRESULT CHWMFT::CheckOutputType(
     return hr;
 }
 
-HRESULT CHWMFT::ShutdownEventQueue(void)
+HRESULT CVpuMft::ShutdownEventQueue(void)
 {
     HRESULT hr = S_OK;
 
@@ -425,7 +417,7 @@ HRESULT CHWMFT::ShutdownEventQueue(void)
     return hr;
 }
 
-HRESULT CHWMFT::OnStartOfStream(void)
+HRESULT CVpuMft::OnStartOfStream(void)
 {
     HRESULT hr = S_OK;
 
@@ -459,7 +451,7 @@ HRESULT CHWMFT::OnStartOfStream(void)
     return hr;
 }
 
-HRESULT CHWMFT::OnEndOfStream(void)
+HRESULT CVpuMft::OnEndOfStream(void)
 {
     HRESULT hr = S_OK;
 
@@ -484,7 +476,7 @@ HRESULT CHWMFT::OnEndOfStream(void)
     return hr;
 }
 
-HRESULT CHWMFT::OnDrain(
+HRESULT CVpuMft::OnDrain(
     const UINT32 un32StreamID)
 {
     HRESULT hr = S_OK;
@@ -512,7 +504,7 @@ HRESULT CHWMFT::OnDrain(
     return hr;
 }
 
-HRESULT CHWMFT::OnFlush(void)
+HRESULT CVpuMft::OnFlush(void)
 {
     HRESULT hr = S_OK;
 
@@ -538,7 +530,7 @@ HRESULT CHWMFT::OnFlush(void)
     return hr;
 }
 
-HRESULT CHWMFT::OnMarker(
+HRESULT CVpuMft::OnMarker(
     const ULONG_PTR pulID)
 {
     HRESULT hr  = S_OK;
@@ -567,7 +559,7 @@ HRESULT CHWMFT::OnMarker(
     return hr;
 }
 
-HRESULT CHWMFT::RequestSample(
+HRESULT CVpuMft::RequestSample(
     const UINT32 un32StreamID)
 {
     HRESULT         hr      = S_OK;
@@ -630,7 +622,7 @@ HRESULT CHWMFT::RequestSample(
 }
 
 
-HRESULT CHWMFT::FlushSamples(void)
+HRESULT CVpuMft::FlushSamples(void)
 {
     HRESULT hr = S_OK;
 
@@ -668,7 +660,7 @@ HRESULT CHWMFT::FlushSamples(void)
     return hr;
 }
 
-HRESULT CHWMFT::ScheduleFrameDecode(void)
+HRESULT CVpuMft::ScheduleFrameDecode(void)
 {
     HRESULT             hr              = S_OK;
     IMFSample*          pInputSample    = NULL;
@@ -715,7 +707,7 @@ HRESULT CHWMFT::ScheduleFrameDecode(void)
     return hr;
 }
 
-HRESULT CHWMFT::DecodeInputFrame(
+HRESULT CVpuMft::DecodeInputFrame(
     IMFSample*  pInputSample)
 {
     HRESULT         hr                  = S_OK;
@@ -973,7 +965,7 @@ HRESULT CHWMFT::DecodeInputFrame(
     return hr;
 }
 
-BOOL CHWMFT::IsLocked(void)
+BOOL CVpuMft::IsLocked(void)
 {
     /***************************************
     ** Since this in an internal function
@@ -993,7 +985,7 @@ BOOL CHWMFT::IsLocked(void)
     return (bUnlocked != FALSE) ? FALSE : TRUE;
 }
 
-BOOL CHWMFT::IsMFTReady(void)
+BOOL CVpuMft::IsMFTReady(void)
 {
     /*******************************
     ** The purpose of this function

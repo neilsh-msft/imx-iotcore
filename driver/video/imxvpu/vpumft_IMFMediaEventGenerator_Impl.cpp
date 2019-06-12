@@ -1,15 +1,7 @@
 #include "vpumft.h"
 #include <Mfapi.h>
 
-// Helper Macros
-#define SAFERELEASE(x) \
-    if((x) != NULL) \
-    { \
-        (x)->Release(); \
-        (x) = NULL; \
-    } \
-
-HRESULT CHWMFT::BeginGetEvent(
+HRESULT CVpuMft::BeginGetEvent(
     IMFAsyncCallback*   pCallback,
     IUnknown*           punkState)
 {
@@ -22,7 +14,7 @@ HRESULT CHWMFT::BeginGetEvent(
     return m_pEventQueue->BeginGetEvent(pCallback, punkState);
 }
 
-HRESULT CHWMFT::EndGetEvent(
+HRESULT CVpuMft::EndGetEvent(
     IMFAsyncResult* pResult,
     IMFMediaEvent** ppEvent)
 {
@@ -35,7 +27,7 @@ HRESULT CHWMFT::EndGetEvent(
     return m_pEventQueue->EndGetEvent(pResult, ppEvent);
 }
 
-HRESULT CHWMFT::GetEvent(
+HRESULT CVpuMft::GetEvent(
     DWORD           dwFlags,
     IMFMediaEvent** ppEvent)
 {
@@ -48,7 +40,7 @@ HRESULT CHWMFT::GetEvent(
     return m_pEventQueue->GetEvent(dwFlags, ppEvent);
 }
 
-HRESULT CHWMFT::QueueEvent(
+HRESULT CVpuMft::QueueEvent(
     MediaEventType      met,
     REFGUID             guidExtendedType,
     HRESULT             hrStatus,

@@ -1,14 +1,6 @@
 #include "vpumft.h"
 
-// Helper Macros
-#define SAFERELEASE(x) \
-    if((x) != NULL) \
-    { \
-        (x)->Release(); \
-        (x) = NULL; \
-    } \
-
-HRESULT CHWMFT::GetParameters(
+HRESULT CVpuMft::GetParameters(
     DWORD*  pdwFlags,
     DWORD*  pdwQueue)
 {
@@ -29,7 +21,7 @@ HRESULT CHWMFT::GetParameters(
     return hr;
 }
 
-HRESULT CHWMFT::Invoke(
+HRESULT CVpuMft::Invoke(
     IMFAsyncResult *pAsyncResult)
 {
     /*********************************

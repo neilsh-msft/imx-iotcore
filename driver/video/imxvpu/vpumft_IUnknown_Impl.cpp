@@ -1,12 +1,12 @@
 #include "vpumft.h"
 #include "ivpumft.h"
 
-ULONG CHWMFT::AddRef(void)
+ULONG CVpuMft::AddRef(void)
 {
     return InterlockedIncrement(&m_ulRef);
 }
 
-HRESULT CHWMFT::QueryInterface(
+HRESULT CVpuMft::QueryInterface(
     REFIID riid,
     void** ppvObject)
 {
@@ -45,7 +45,7 @@ HRESULT CHWMFT::QueryInterface(
         }
         else if(riid == IID_IVPUMFT)
         {
-            *ppvObject = (IMYMFT*)this;
+            *ppvObject = (IVpuMft*)this;
         }
         else if(riid == IID_IUnknown)
         {
@@ -64,7 +64,7 @@ HRESULT CHWMFT::QueryInterface(
     return hr;
 }
 
-ULONG CHWMFT::Release(void)
+ULONG CVpuMft::Release(void)
 {
     ULONG   ulRef = 0;
     

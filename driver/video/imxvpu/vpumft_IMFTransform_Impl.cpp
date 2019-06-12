@@ -4,19 +4,11 @@
 #include <mfapi.h>
 #include "vpumft_DebugLogger.h"
 
-// Helper Macros
-#define SAFERELEASE(x) \
-    if((x) != NULL) \
-    { \
-        (x)->Release(); \
-        (x) = NULL; \
-    } \
-
 /****************************
 ******* IMFTransform ********
 ****************************/
 
-HRESULT CHWMFT::AddInputStreams(
+HRESULT CVpuMft::AddInputStreams(
     DWORD   dwStreams,
     DWORD*  pdwStreamIDs)
 {
@@ -30,7 +22,7 @@ HRESULT CHWMFT::AddInputStreams(
     return E_NOTIMPL;
 }
 
-HRESULT CHWMFT::DeleteInputStream(
+HRESULT CVpuMft::DeleteInputStream(
     DWORD   dwStreamID)
 {
     /*****************************************
@@ -43,7 +35,7 @@ HRESULT CHWMFT::DeleteInputStream(
     return E_NOTIMPL;
 }
 
-HRESULT CHWMFT::GetAttributes(
+HRESULT CVpuMft::GetAttributes(
     IMFAttributes** ppAttributes)
 {
     HRESULT hr = S_OK;
@@ -70,7 +62,7 @@ HRESULT CHWMFT::GetAttributes(
     return hr;
 }
 
-HRESULT CHWMFT::GetInputAvailableType(
+HRESULT CVpuMft::GetInputAvailableType(
     DWORD           dwInputStreamID,
     DWORD           dwTypeIndex,
     IMFMediaType**  ppType)
@@ -156,7 +148,7 @@ HRESULT CHWMFT::GetInputAvailableType(
     return hr;
 }
 
-HRESULT CHWMFT::GetInputCurrentType(
+HRESULT CVpuMft::GetInputCurrentType(
     DWORD           dwInputStreamID,
     IMFMediaType**  ppType)
 {
@@ -231,7 +223,7 @@ HRESULT CHWMFT::GetInputCurrentType(
     return hr;
 }
 
-HRESULT CHWMFT::GetInputStatus(
+HRESULT CVpuMft::GetInputStatus(
     DWORD   dwInputStreamID,
     DWORD*  pdwFlags)
 {
@@ -282,7 +274,7 @@ HRESULT CHWMFT::GetInputStatus(
     return hr;
 }
 
-HRESULT CHWMFT::GetInputStreamAttributes(
+HRESULT CVpuMft::GetInputStreamAttributes(
     DWORD           dwInputStreamID,
     IMFAttributes** ppAttributes)
 {
@@ -298,7 +290,7 @@ HRESULT CHWMFT::GetInputStreamAttributes(
     return E_NOTIMPL;
 }
 
-HRESULT CHWMFT::GetInputStreamInfo(
+HRESULT CVpuMft::GetInputStreamInfo(
     DWORD                   dwInputStreamID,
     MFT_INPUT_STREAM_INFO*  pStreamInfo)
 {
@@ -344,7 +336,7 @@ HRESULT CHWMFT::GetInputStreamInfo(
     return hr;
 }
 
-HRESULT CHWMFT::GetOutputAvailableType(
+HRESULT CVpuMft::GetOutputAvailableType(
     DWORD           dwOutputStreamID,
     DWORD           dwTypeIndex,
     IMFMediaType**  ppType)
@@ -450,7 +442,7 @@ HRESULT CHWMFT::GetOutputAvailableType(
     return hr;
 }
 
-HRESULT CHWMFT::GetOutputCurrentType(
+HRESULT CVpuMft::GetOutputCurrentType(
     DWORD           dwOutputStreamID,
     IMFMediaType**  ppType)
 {
@@ -533,7 +525,7 @@ HRESULT CHWMFT::GetOutputCurrentType(
     return hr;
 }
 
-HRESULT CHWMFT::GetOutputStatus(
+HRESULT CVpuMft::GetOutputStatus(
     DWORD*  pdwFlags)
 {
     /*****************************************
@@ -577,7 +569,7 @@ HRESULT CHWMFT::GetOutputStatus(
     return hr;
 }
 
-HRESULT CHWMFT::GetOutputStreamAttributes(
+HRESULT CVpuMft::GetOutputStreamAttributes(
     DWORD           dwOutputStreamID,
     IMFAttributes** ppAttributes)
 {
@@ -592,7 +584,7 @@ HRESULT CHWMFT::GetOutputStreamAttributes(
     return E_NOTIMPL;
 }
 
-HRESULT CHWMFT::GetOutputStreamInfo(
+HRESULT CVpuMft::GetOutputStreamInfo(
     DWORD                   dwOutputStreamID,
     MFT_OUTPUT_STREAM_INFO* pStreamInfo)
 {
@@ -644,7 +636,7 @@ HRESULT CHWMFT::GetOutputStreamInfo(
     return hr;
 }
 
-HRESULT CHWMFT::GetStreamCount(
+HRESULT CVpuMft::GetStreamCount(
     DWORD*  pdwInputStreams,
     DWORD*  pdwOutputStreams)
 {
@@ -676,7 +668,7 @@ HRESULT CHWMFT::GetStreamCount(
     return hr;
 }
 
-HRESULT CHWMFT::GetStreamIDs(
+HRESULT CVpuMft::GetStreamIDs(
     DWORD   dwInputIDArraySize,
     DWORD*  pdwInputIDs,
     DWORD   dwOutputIDArraySize,
@@ -722,7 +714,7 @@ HRESULT CHWMFT::GetStreamIDs(
     return hr;
 }
 
-HRESULT CHWMFT::GetStreamLimits(
+HRESULT CVpuMft::GetStreamLimits(
     DWORD*  pdwInputMinimum,
     DWORD*  pdwInputMaximum,
     DWORD*  pdwOutputMinimum,
@@ -765,7 +757,7 @@ HRESULT CHWMFT::GetStreamLimits(
     return hr;
 }
 
-HRESULT CHWMFT::ProcessEvent(
+HRESULT CVpuMft::ProcessEvent(
     DWORD           dwInputStreamID,
     IMFMediaEvent*  pEvent)
 {
@@ -814,7 +806,7 @@ HRESULT CHWMFT::ProcessEvent(
     return hr;
 }
 
-HRESULT CHWMFT::ProcessInput(
+HRESULT CVpuMft::ProcessInput(
     DWORD       dwInputStreamID,
     IMFSample*  pSample,
     DWORD       dwFlags)
@@ -896,7 +888,7 @@ HRESULT CHWMFT::ProcessInput(
     return hr;
 }
 
-HRESULT CHWMFT::ProcessMessage(
+HRESULT CVpuMft::ProcessMessage(
     MFT_MESSAGE_TYPE eMessage,
     ULONG_PTR ulParam)
 {
@@ -981,7 +973,7 @@ HRESULT CHWMFT::ProcessMessage(
     return hr;
 }
 
-HRESULT CHWMFT::ProcessOutput(
+HRESULT CVpuMft::ProcessOutput(
     DWORD                   dwFlags,
     DWORD                   dwOutputBufferCount,
     MFT_OUTPUT_DATA_BUFFER* pOutputSamples,
@@ -1167,7 +1159,7 @@ HRESULT CHWMFT::ProcessOutput(
     return hr;
 }
 
-HRESULT CHWMFT::SetInputType(
+HRESULT CVpuMft::SetInputType(
     DWORD           dwInputStreamID,
     IMFMediaType*   pType,
     DWORD           dwFlags)
@@ -1247,7 +1239,7 @@ HRESULT CHWMFT::SetInputType(
     return hr;
 }
 
-HRESULT CHWMFT::SetOutputBounds(
+HRESULT CVpuMft::SetOutputBounds(
     LONGLONG hnsLowerBound,
     LONGLONG hnsUpperBound)
 {
@@ -1260,7 +1252,7 @@ HRESULT CHWMFT::SetOutputBounds(
     return E_NOTIMPL;
 }
 
-HRESULT CHWMFT::SetOutputType(
+HRESULT CVpuMft::SetOutputType(
     DWORD           dwOutputStreamID,
     IMFMediaType*   pType,
     DWORD           dwFlags)

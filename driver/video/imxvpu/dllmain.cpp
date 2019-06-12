@@ -5,13 +5,6 @@
 
 #pragma region HelperMacros
 // Helper Macros
-#define SAFERELEASE(x) \
-    if((x) != NULL) \
-    { \
-        (x)->Release(); \
-        (x) = NULL; \
-    } \
-
 #define SAFEREGCLOSEKEY(x) \
     if((x) != NULL) \
     { \
@@ -134,7 +127,7 @@ public:
                 break;
             }
 
-            hr = CHWMFT::CreateInstance(&pHWMFT);
+            hr = CVpuMft::CreateInstance(&pHWMFT);
             if(FAILED(hr))
             {
                 break;
@@ -180,7 +173,7 @@ public:
 #pragma region GlobalVariables
 
 HMODULE         g_hModule                       = NULL;     // DLL module handle
-volatile ULONG  CHWMFT::m_ulNumObjects          = 0;        // Number of active COM objects
+volatile ULONG  CVpuMft::m_ulNumObjects          = 0;        // Number of active COM objects
 volatile ULONG ClassFactory::m_ulServerLocks   = 0;        // Number of server locks
 
 #pragma endregion GlobalVariables
@@ -432,7 +425,7 @@ HRESULT __stdcall DllCanUnloadNow(void)
 
     do
     {
-        if ((ClassFactory::IsLocked() != FALSE) || (CHWMFT::m_ulNumObjects != 0))
+        if ((ClassFactory::IsLocked() != FALSE) || (CVpuMft::m_ulNumObjects != 0))
         {
             break;
         }
