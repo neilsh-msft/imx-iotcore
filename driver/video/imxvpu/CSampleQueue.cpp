@@ -136,7 +136,7 @@ HRESULT CSampleQueue::AddSample(
 
             if(m_bAddMarker != FALSE)
             {
-                hr = pSample->SetUINT64(MYMFT_MFSampleExtension_Marker, m_pulMarkerID);
+                hr = pSample->SetUINT64(VpuMft_MFSampleExtension_Marker, m_pulMarkerID);
                 if(FAILED(hr))
                 {
                     break;

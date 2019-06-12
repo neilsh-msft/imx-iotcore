@@ -38,10 +38,9 @@ void TraceInitialize(void)
 #ifdef  _HMFTLOGGING_
     if(g_bEnabled == FALSE)
     {
-        // Provider ID: {54E23341-C608-4161-97F1-653A9B6FFFF1}
-        // TODO: Generate a new unique provider ID. Do not reuse this GUID.
-        static const GUID guidTrace = 
-            { 0x54e23341, 0xc608, 0x4161, { 0x97, 0xf1, 0x65, 0x3a, 0x9b, 0x6f, 0xff, 0xf1 } };
+        // Provider ID: {2183964F-3782-48A6-9E93-52580016156E}
+        static const GUID guidTrace =
+            { 0x2183964f, 0x3782, 0x48a6, { 0x9e, 0x93, 0x52, 0x58, 0x0, 0x16, 0x15, 0x6e } };
 
         EventRegister(
             &guidTrace,

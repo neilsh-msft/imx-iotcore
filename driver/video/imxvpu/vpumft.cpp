@@ -6,12 +6,12 @@
 #include "vpumft_DebugLogger.h"
 #include <initguid.h>
 
-// {1F620607-A7FF-4B94-82F4-993F2E17B497}
-DEFINE_GUID(MYMFT_MFSampleExtension_Marker, 
-0x1f620607, 0xa7ff, 0x4b94, 0x82, 0xf4, 0x99, 0x3f, 0x2e, 0x17, 0xb4, 0x97);
+// {C5026A4C-A546-4B93-9FAA-9D0DD16941FE}
+DEFINE_GUID(VpuMft_MFSampleExtension_Marker,
+0xc5026a4c, 0xa546, 0x4b93, 0x9f, 0xaa, 0x9d, 0xd, 0xd1, 0x69, 0x41, 0xfe);
 
 #define MFT_NUM_DEFAULT_ATTRIBUTES  4
-#define MFT_HW_URL                  L"MSFT Win8 SDK HW MFT Sample"
+#define VPU_HW_URL     L"i.MX VPU MFT hardware accelerator"
 
 // Global Variables
 const GUID*     g_ppguidInputTypes[] = 
@@ -892,7 +892,7 @@ HRESULT CVpuMft::DecodeInputFrame(
             m_dwStatus |= MYMFT_STATUS_OUTPUT_SAMPLE_READY;
         }
 
-        if(pInputSample->GetUINT64(MYMFT_MFSampleExtension_Marker, &pun64MarkerID) == S_OK)
+        if(pInputSample->GetUINT64(VpuMft_MFSampleExtension_Marker, &pun64MarkerID) == S_OK)
         {
             // This input sample flagged a marker
             IMFMediaEvent*  pMarkerEvent    = NULL;

@@ -23,11 +23,11 @@
 
 #pragma region GlobalDefines
 
-// {C637E2D2-01A0-4ACE-9C43-D2AF07E00B8C}
-DEFINE_GUID(CLSID_MYMFT, 
-0xc637e2d2, 0x1a0, 0x4ace, 0x9c, 0x43, 0xd2, 0xaf, 0x7, 0xe0, 0xb, 0x8c);
+// {8A12D5A9-69EC-4FE2-BF16-7B4C857D0DC0}
+DEFINE_GUID(CLSID_VpuMft,
+0x8a12d5a9, 0x69ec, 0x4fe2, 0xbf, 0x16, 0x7b, 0x4c, 0x85, 0x7d, 0xd, 0xc0);
 
-#define MY_MFT_NAME     L"Win8 SDK HW MFT Sample"
+#define VPU_MFT_NAME     L"i.MX VPU MFT hardware accelerator"
 #define MFT_CODEC_MERIT 8 /*Todo: Replace this with the actual codec Merit*/
 
 #pragma endregion GlobalDefines
@@ -489,8 +489,8 @@ HRESULT __stdcall DllRegisterServer(void)
         */
 
         // Register the object with COM
-        hr = RegisterObject(CLSID_MYMFT,
-            MY_MFT_NAME,
+        hr = RegisterObject(CLSID_VpuMft,
+            VPU_MFT_NAME,
             L"Both");
         if(FAILED(hr))
         {
@@ -499,9 +499,9 @@ HRESULT __stdcall DllRegisterServer(void)
 
         // Register the MFT with MF
 		hr = MFTRegister(
-                CLSID_MYMFT,
+                CLSID_VpuMft,
                 MFT_CATEGORY_VIDEO_DECODER, // This MFT acts as a video decoder
-                MY_MFT_NAME,
+                VPU_MFT_NAME,
                 /****************************************
                 ** !!MSFT_TODO: Report as HW MFT
                 ****************************************
@@ -528,7 +528,7 @@ HRESULT __stdcall DllRegisterServer(void)
 
 HRESULT __stdcall DllUnregisterServer(void)
 {
-    UnregisterObject(CLSID_MYMFT);
+    UnregisterObject(CLSID_VpuMft);
 
     return S_OK;
 }
@@ -543,7 +543,7 @@ HRESULT __stdcall DllGetClassObject(
 
     do
     {
-        if (clsid != CLSID_MYMFT)
+        if (clsid != CLSID_VpuMft)
         {
             hr = CLASS_E_CLASSNOTAVAILABLE;
             break;

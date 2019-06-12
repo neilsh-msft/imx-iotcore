@@ -42,7 +42,7 @@ extern  const   GUID*   g_ppguidInputTypes[];
 extern  const   DWORD   g_dwNumInputTypes;
 extern  const   GUID*   g_ppguidOutputTypes[];
 extern  const   DWORD   g_dwNumOutputTypes;
-extern  const   GUID    MYMFT_MFSampleExtension_Marker;
+extern  const   GUID    VpuMft_MFSampleExtension_Marker;
 
 class CVpuMft: 
     public IMFTransform,
