@@ -18,11 +18,7 @@ Environment:
 #include "imxvpu_driver.h"
 #include "driver.tmh"
 
-#ifdef ALLOC_PRAGMA
-#pragma alloc_text (INIT, DriverEntry)
-#pragma alloc_text (PAGE, OnDeviceAdd)
-#pragma alloc_text (PAGE, OnDriverContextCleanup)
-#endif
+IMXVPU_INIT_SEGMENT_BEGIN
 
 _Use_decl_annotations_
 NTSTATUS
@@ -75,7 +71,7 @@ Return Value:
     attributes.EvtCleanupCallback = OnDriverContextCleanup;
 
     WDF_DRIVER_CONFIG_INIT(&config,
-                           OnDeviceAdd
+						   ImxVpuEvtDeviceAdd
                            );
 
 	//
@@ -101,8 +97,12 @@ Return Value:
     return status;
 }
 
+IMXVPU_INIT_SEGMENT_END
+
+IMXVPU_PAGED_SEGMENT_BEGIN
+
 NTSTATUS
-OnDeviceAdd(
+ImxVpuEvtDeviceAdd(
     _In_    WDFDRIVER       Driver,
     _Inout_ PWDFDEVICE_INIT DeviceInit
     )
@@ -188,3 +188,5 @@ Return Value:
     //
     WPP_CLEANUP(WdfDriverWdmGetDriverObject((WDFDRIVER)DriverObject));
 }
+
+IMXVPU_PAGED_SEGMENT_END

@@ -24,7 +24,7 @@ Environment:
     WPP_DEFINE_CONTROL_GUID(                                           \
         imxvpukmTraceGuid, (5fbb08b0,3d8d,4171,a1b8,5d48737110b7), \
                                                                             \
-        WPP_DEFINE_BIT(MYDRIVER_ALL_INFO)                              \
+        WPP_DEFINE_BIT(IMXVPU_TRACING_DEFAULT)                         \
         WPP_DEFINE_BIT(TRACE_DRIVER)                                   \
         WPP_DEFINE_BIT(TRACE_DEVICE)                                   \
         WPP_DEFINE_BIT(TRACE_QUEUE)                                    \
@@ -56,7 +56,23 @@ Environment:
 // Trace function.
 //
 // begin_wpp config
-// FUNC Trace{FLAGS=MYDRIVER_ALL_INFO}(LEVEL, MSG, ...);
+// FUNC Trace{FLAGS=IMXVPU_TRACING_DEFAULT}(LEVEL, MSG, ...);
 // FUNC TraceEvents(LEVEL, FLAGS, MSG, ...);
+//
+// FUNC IMXVPU_LOG_ERROR{LEVEL=TRACE_LEVEL_ERROR, FLAGS=IMXVPU_TRACING_DEFAULT}(MSG, ...);
+// USEPREFIX (IMXVPU_LOG_ERROR, "%!STDPREFIX! [%s @ %u] ERROR :", __FILE__, __LINE__);
+//
+// FUNC IMXVPU_LOG_LOW_MEMORY{LEVEL=TRACE_LEVEL_ERROR, FLAGS=IMXVPU_TRACING_DEFAULT}(MSG, ...);
+// USEPREFIX (IMXVPU_LOG_LOW_MEMORY, "%!STDPREFIX! [%s @ %u] LOW MEMORY :", __FILE__, __LINE__);
+//
+// FUNC IMXVPU_LOG_WARNING{LEVEL=TRACE_LEVEL_WARNING, FLAGS=IMXVPU_TRACING_DEFAULT}(MSG, ...);
+// USEPREFIX (IMXVPU_LOG_WARNING, "%!STDPREFIX! [%s @ %u] WARNING :", __FILE__, __LINE__);
+//
+// FUNC IMXVPU_LOG_INFORMATION{LEVEL=TRACE_LEVEL_INFORMATION, FLAGS=IMXVPU_TRACING_DEFAULT}(MSG, ...);
+// USEPREFIX (IMXVPU_LOG_INFORMATION, "%!STDPREFIX! [%s @ %u] INFO :", __FILE__, __LINE__);
+//
+// FUNC IMXVPU_LOG_TRACE{LEVEL=TRACE_LEVEL_VERBOSE, FLAGS=IMXVPU_TRACING_DEFAULT}(MSG, ...);
+// USEPREFIX (IMXVPU_LOG_TRACE, "%!STDPREFIX! [%s @ %u] TRACE :", __FILE__, __LINE__);
+//
 // end_wpp
 //

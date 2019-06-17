@@ -18,9 +18,133 @@ Environment:
 #include "imxvpu_driver.h"
 #include "device.tmh"
 
-#ifdef ALLOC_PRAGMA
-#pragma alloc_text (PAGE, OnCreateDevice)
-#endif
+IMXVPU_PAGED_SEGMENT_BEGIN; //==================================================
+
+_Use_decl_annotations_
+NTSTATUS
+ImxVpuEvtDevicePrepareHardware(
+	WDFDEVICE WdfDevice,
+	WDFCMRESLIST ResourcesRaw,
+	WDFCMRESLIST ResourcesTranslated
+)
+{
+	PAGED_CODE();
+	IMXVPU_ASSERT_MAX_IRQL(PASSIVE_LEVEL);
+	(void *)ResourcesRaw;
+	const CM_PARTIAL_RESOURCE_DESCRIPTOR* memResourcePtr = NULL;
+	ULONG interruptResourceCount = 0;
+
+	//
+	// Look for single memory and interrupt resource.
+	//
+	const ULONG resourceCount = WdfCmResourceListGetCount(ResourcesTranslated);
+	for (ULONG i = 0; i < resourceCount; ++i) {
+		const CM_PARTIAL_RESOURCE_DESCRIPTOR* resourcePtr =
+			WdfCmResourceListGetDescriptor(ResourcesTranslated, i);
+
+		switch (resourcePtr->Type) {
+		case CmResourceTypeMemory:
+			if (memResourcePtr != NULL) {
+				IMXVPU_LOG_ERROR(
+					"Received unexpected memory resource. (resourcePtr = 0x%p)",
+					resourcePtr);
+
+				return STATUS_DEVICE_CONFIGURATION_ERROR;
+			}
+
+			memResourcePtr = resourcePtr;
+			break;
+
+		case CmResourceTypeInterrupt:
+			if (interruptResourceCount > 3) {
+				IMXVPU_LOG_ERROR(
+					"Received unexpected interrupt resource. "
+					"(interruptResourceCount = %lu, resourcePtr = 0x%p)",
+					interruptResourceCount,
+					resourcePtr);
+
+				return STATUS_DEVICE_CONFIGURATION_ERROR;
+			}
+
+			++interruptResourceCount;
+			break;
+		}
+	}
+
+	if ((memResourcePtr == NULL) || (interruptResourceCount != 3)) {
+		IMXVPU_LOG_ERROR(
+			"Did not receive required memory resource and interrupt resource. "
+			"(memResourcePtr = 0x%p, interruptResourceCount = %lu)",
+			memResourcePtr,
+			interruptResourceCount);
+
+		return STATUS_DEVICE_CONFIGURATION_ERROR;
+	}
+
+	if (memResourcePtr->u.Memory.Length < sizeof(IMXVPU_REGISTERS)) {
+		IMXVPU_LOG_ERROR(
+			"Memory resource is too small. "
+			"(memResourcePtr->u.Memory.Length = %lu, "
+			"sizeof(IMXVPU_REGISTERS) = %lu)",
+			memResourcePtr->u.Memory.Length,
+			sizeof(IMXVPU_REGISTERS));
+
+		return STATUS_DEVICE_CONFIGURATION_ERROR;
+	}
+
+	//
+	// ReleaseHardware is ALWAYS called, even if PrepareHardware fails, so
+	// the cleanup of registersPtr is handled there
+	//
+	IMXVPU_DEVICE_CONTEXT* deviceContextPtr =
+		ImxVpuGetDeviceContext(WdfDevice);
+
+	NT_ASSERT(memResourcePtr->Type == CmResourceTypeMemory);
+	deviceContextPtr->RegistersPtr = (IMXVPU_REGISTERS*)
+		MmMapIoSpaceEx(
+			memResourcePtr->u.Memory.Start,
+			sizeof(IMXVPU_REGISTERS),
+			PAGE_READWRITE | PAGE_NOCACHE);
+
+	if (deviceContextPtr->RegistersPtr == NULL) {
+		IMXVPU_LOG_LOW_MEMORY(
+			"MmMapIoSpaceEx(...) failed. "
+			"(memResourcePtr->u.Memory.Start = 0x%llx, "
+			"sizeof(IMXVPU_REGISTERS) = %lu)",
+			memResourcePtr->u.Memory.Start.QuadPart,
+			sizeof(IMXVPU_REGISTERS));
+
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	return STATUS_SUCCESS;
+}
+
+_Use_decl_annotations_
+NTSTATUS
+ImxVpuEvtDeviceReleaseHardware(
+	WDFDEVICE WdfDevice,
+	WDFCMRESLIST ResourcesTranslated
+)
+{
+	PAGED_CODE();
+	IMXVPU_ASSERT_MAX_IRQL(PASSIVE_LEVEL);
+
+	(void *)ResourcesTranslated;
+	IMXVPU_DEVICE_CONTEXT* deviceContextPtr =
+		ImxVpuGetDeviceContext(WdfDevice);
+
+	if (deviceContextPtr->RegistersPtr != NULL) {
+		MmUnmapIoSpace(
+			deviceContextPtr->RegistersPtr,
+			sizeof(IMXVPU_REGISTERS));
+
+		deviceContextPtr->RegistersPtr = NULL;
+	}
+
+	return STATUS_SUCCESS;
+}
+
 
 NTSTATUS
 OnCreateDevice(
@@ -45,13 +169,13 @@ Return Value:
 --*/
 {
     WDF_OBJECT_ATTRIBUTES deviceAttributes;
-    PDEVICE_CONTEXT deviceContext;
+    IMXVPU_DEVICE_CONTEXT* deviceContext;
     WDFDEVICE device;
     NTSTATUS status;
 
     PAGED_CODE();
 
-    WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&deviceAttributes, DEVICE_CONTEXT);
+    WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&deviceAttributes, IMXVPU_DEVICE_CONTEXT);
 
     status = WdfDeviceCreate(&DeviceInit, &deviceAttributes, &device);
 
@@ -65,12 +189,12 @@ Return Value:
         // If you pass a wrong object handle it will return NULL and assert if
         // run under framework verifier mode.
         //
-        deviceContext = DeviceGetContext(device);
+        deviceContext = ImxVpuGetDeviceContext(device);
 
         //
         // Initialize the context.
         //
-        deviceContext->PrivateDeviceData = 0;
+        memset(deviceContext, 0, sizeof(IMXVPU_DEVICE_CONTEXT));
 
         //
         // Create a device interface so that applications can find and talk
