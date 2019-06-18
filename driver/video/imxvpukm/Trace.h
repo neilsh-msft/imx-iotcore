@@ -27,7 +27,7 @@ Environment:
         WPP_DEFINE_BIT(IMXVPU_TRACING_DEFAULT)                         \
         WPP_DEFINE_BIT(TRACE_DRIVER)                                   \
         WPP_DEFINE_BIT(TRACE_DEVICE)                                   \
-        WPP_DEFINE_BIT(TRACE_QUEUE)                                    \
+        WPP_DEFINE_BIT(IMXVPU_QUEUE_TRACE)                                    \
         )                             
 
 #define WPP_FLAG_LEVEL_LOGGER(flag, level)                                  \

@@ -251,6 +251,11 @@ copy %BUILD_ROOT%\OpteeTrEE\* %PKG_ROOT%\OPTEE\ >NUL
 if errorlevel 1 (set FAILURE=OpteeTrEE & goto ERROR)
 copy %REPO_ROOT%\driver\TrEE\TrEE\OpteeTrEE.wm.xml %PKG_ROOT%\OPTEE\ >NUL
 
+mkdir %PKG_ROOT%\imxvpukm >NUL 2>NUL
+copy %BUILD_ROOT%\imxvpukm\* %PKG_ROOT%\imxvpukm\ >NUL
+if errorlevel 1 (set FAILURE=imxvpukm & goto ERROR)
+copy %REPO_ROOT%\driver\video\imxvpukm\imxvpukm.wm.xml %PKG_ROOT%\imxvpukm\ >NUL
+
 :: Copy HAL Extension Packages
 echo Copying HAL Extension Packages to %PKG_ROOT%
 mkdir %PKG_ROOT%\HalExtDma >NUL 2>NUL

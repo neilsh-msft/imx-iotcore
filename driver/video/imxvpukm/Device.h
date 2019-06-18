@@ -18,10 +18,6 @@ Environment:
 
 EXTERN_C_START
 
-typedef struct {
-	ULONG regs[128];
-} IMXVPU_REGISTERS;
-
 //
 // The device context performs the same job as
 // a WDM device extension in the driver frameworks

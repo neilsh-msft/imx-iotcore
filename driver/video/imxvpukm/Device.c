@@ -16,7 +16,7 @@ Environment:
 */
 
 #include "imxvpu_driver.h"
-#include "device.tmh"
+#include "Device.tmh"
 
 IMXVPU_PAGED_SEGMENT_BEGIN; //==================================================
 
@@ -30,7 +30,7 @@ ImxVpuEvtDevicePrepareHardware(
 {
 	PAGED_CODE();
 	IMXVPU_ASSERT_MAX_IRQL(PASSIVE_LEVEL);
-	(void *)ResourcesRaw;
+	UNREFERENCED_PARAMETER(ResourcesRaw);
 	const CM_PARTIAL_RESOURCE_DESCRIPTOR* memResourcePtr = NULL;
 	ULONG interruptResourceCount = 0;
 
@@ -130,7 +130,7 @@ ImxVpuEvtDeviceReleaseHardware(
 	PAGED_CODE();
 	IMXVPU_ASSERT_MAX_IRQL(PASSIVE_LEVEL);
 
-	(void *)ResourcesTranslated;
+	UNREFERENCED_PARAMETER(ResourcesTranslated);
 	IMXVPU_DEVICE_CONTEXT* deviceContextPtr =
 		ImxVpuGetDeviceContext(WdfDevice);
 
